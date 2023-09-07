@@ -1,0 +1,25 @@
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+ 
+}
+td{
+  color: rgb(255, 255, 255);
+}
+
+.delete{
+  cursor: pointer;
+  color: red;
+}
+.update{
+  cursor: pointer;
+  color: green;
+}
+
