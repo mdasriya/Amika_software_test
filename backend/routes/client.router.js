@@ -39,12 +39,13 @@ ClientRoutes.patch("/update/:clientId", async (req, res) => {
     const userIdinUserDoc = req.body.UserId
     const { clientId } = req.params
 
+
     try {
         const client = await ClientModel.findOne({ _id: clientId })
         const userIDinClientDoc = client.UserId
 
         if (userIdinUserDoc === userIDinClientDoc) {
-            console.log("user id in user Doc",userIdinUserDoc ,"user id in client doc", userIDinClientDoc);
+          
            await ClientModel.findByIdAndUpdate({_id:clientId}, req.body)
            res.json({msg:`${client.name} has been updated`})
         } else {
@@ -52,7 +53,7 @@ ClientRoutes.patch("/update/:clientId", async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-    }
+     }
 
 })
 
@@ -60,7 +61,7 @@ ClientRoutes.patch("/update/:clientId", async (req, res) => {
  ClientRoutes.delete("/delete/:clientId", async(req,res)=> {
     const userIdinUserDoc = req.body.UserId
     const { clientId } = req.params
-   console.log(clientId);
+
     try {
         const client = await ClientModel.findOne({ _id: clientId })
         const userIDinClientDoc = client.UserId

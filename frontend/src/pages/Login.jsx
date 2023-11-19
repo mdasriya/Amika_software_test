@@ -30,7 +30,7 @@ const Login = () => {
         console.log(res.data);
         localStorage.setItem("token", res.data.token)
         alert(res.data.msg)
-        navigate("/dashboard")
+        navigate("/")
       })
     setEmail("")
     setPass("")
