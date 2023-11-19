@@ -19,6 +19,7 @@ import {
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import axios from "axios"
+import { useNavigate } from 'react-router-dom'
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [name, setName] = useState("")
@@ -50,9 +51,7 @@ const Signup = () => {
           <Heading fontSize={'4xl'} textAlign={'center'}>
             Sign up
           </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool features ✌️
-          </Text>
+        
         </Stack>
         <Box
           rounded={'lg'}
@@ -101,7 +100,7 @@ const Signup = () => {
             </Stack>
             <Stack pt={6}>
               <Text align={'center'}>
-                Already a user? <Link color={'blue.400'}>Login</Link>
+                Already a user? <a href='/login' color={'blue.400'}>Login</a>
               </Text>
             </Stack>
           </Stack>
