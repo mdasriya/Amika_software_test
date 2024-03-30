@@ -41,7 +41,7 @@ const handleUserLogin = (async (req, res) => {
         res.status(200).json({ msg: "register first" })
       }
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
   
   })

@@ -12,13 +12,13 @@ try {
    req.body.user = decoded.user
    next()
   }else{
-    res.json({msg:"Not authorized"})
+    res.json({msg:"Not authorized", state:false})
   }
 } catch (error) {
   console.log(error);  
 }
  }else{
-    res.json({msg:"please login first"})
+    res.json({msg:"please login first", state:false})
  }
 
 
