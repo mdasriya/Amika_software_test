@@ -32,7 +32,16 @@ const Login = () => {
       .then(res => {
         console.log(res.data);
         localStorage.setItem("token", res.data.token)
-      
+      if(res.data.msg === "register first"){
+        toast({
+          title: res.data.msg,
+       position:'top-right',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+        return
+      }
         setLoading(false)
         if(res.data.token){
           toast({
