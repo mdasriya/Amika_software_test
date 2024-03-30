@@ -1,5 +1,6 @@
 'use client'
-
+import { useToast } from '@chakra-ui/react'
+// import { useToast } from '@chakra-ui/react'
 import {
   Flex,
   Box,
@@ -12,15 +13,30 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import axios from "axios"
+import { useNavigate } from 'react-router-dom'
 const AddClient = () => {
+  const toast = useToast()
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [address, setAddress] = useState("")
   const [Number, setNumber] = useState("")
   const [AadharId, setAadhar] = useState("")
   const [company, setCompany] = useState("")
+const navigate = useNavigate()
+
 
   const handleAddClient = (e) => {
+    let token = localStorage.getItem("token")
+    if(!token){
+      toast({
+        title: 'Login First', 
+        status: 'error',
+        position:"top-right",
+        duration: 3000,
+        isClosable: true,
+      })
+      return;
+    }
     e.preventDefault()
     const data = { name, email, address, Number, AadharId, company }
     axios.post("http://localhost:8080/client/create", data, {
@@ -31,7 +47,13 @@ const AddClient = () => {
     })
       .then(res => {
         console.log(res.data.msg);
-        alert(res.data.msg)
+        toast({
+          title: res.data.msg,
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        })
+      navigate("/")  
       })
     setName("")
     setEmail("")
@@ -46,7 +68,7 @@ const AddClient = () => {
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack spacing={8} mx={'xl'} maxW={'lg'} py={12} px={6}>
 
         <Box
           rounded={'lg'}

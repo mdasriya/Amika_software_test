@@ -1,5 +1,5 @@
 'use client'
-
+import { useToast } from '@chakra-ui/react'
 import {
   Flex,
   Box,
@@ -14,25 +14,50 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
+
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
 const Signup = () => {
+  const toast = useToast()
   const [showPassword, setShowPassword] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [pass, setPass] = useState("")
+  const[loading, setLoading] = useState(false)
 
+
+const navigate = useNavigate()
   const handleSignup = (e) => {
+    setLoading(true)
     e.preventDefault()
     let data = { name, email, pass }
     axios.post("http://localhost:8080/user/register", data)
       .then(res => {
-        console.log(res.data)
-        alert(res.data.msg)
+        if(!res.data.state){
+          setLoading(false)
+ toast({
+          title: res.data.msg,
+         position:"top-right",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+        }
+        if(res.data.state){
+          setLoading(false)
+          toast({
+            title: res.data.msg,
+           position:"top-right",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          })
+          navigate("/login")  
+        }
+       
       })
     setName("")
     setEmail("")
@@ -86,7 +111,17 @@ const Signup = () => {
               </InputGroup>
             </FormControl>
             <Stack spacing={10} pt={2}>
-              <Button
+            {loading ?   <Button
+                onClick={handleSignup}
+                loadingText="Submitting"
+                size="lg"
+                bg={'blue.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.500',
+                }}>
+                Wait...
+              </Button> :  <Button
                 onClick={handleSignup}
                 loadingText="Submitting"
                 size="lg"
@@ -96,7 +131,7 @@ const Signup = () => {
                   bg: 'blue.500',
                 }}>
                 Sign up
-              </Button>
+              </Button>}
             </Stack>
             <Stack pt={6}>
               <Text align={'center'}>

@@ -12,6 +12,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { useState } from 'react'
@@ -20,21 +21,39 @@ import { useNavigate } from 'react-router-dom'
 const Login = () => {
   const [email, setEmail] = useState("")
   const [pass, setPass] = useState("")
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-
+  const toast = useToast()
   const handleLogin = (e) => {
     e.preventDefault()
+    setLoading(true)
     const data = { email, pass }
     axios.post("http://localhost:8080/user/login", data)
       .then(res => {
         console.log(res.data);
         localStorage.setItem("token", res.data.token)
-        alert(res.data.msg)
-        navigate("/")
+      
+        setLoading(false)
+        if(res.data.token){
+          toast({
+            title: 'Login Success',
+         position:'top-right',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          })
+          setEmail("")
+          setPass("")
+          navigate("/")
+        }
       })
-    setEmail("")
-    setPass("")
+      .catch((error)=> {
+        console.log(error)
+    setLoading(false)
+      })
+  
   }
+ 
 
 
 
@@ -73,7 +92,15 @@ const Login = () => {
                 <Checkbox>Remember me</Checkbox>
                 <Text color={'blue.400'}>Forgot password?</Text>
               </Stack>
-              <Button
+             {loading ?  <Button
+               
+                bg={'blue.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.500',
+                }}>
+                wait...
+              </Button>: <Button
                 onClick={handleLogin}
                 bg={'blue.400'}
                 color={'white'}
@@ -81,7 +108,7 @@ const Login = () => {
                   bg: 'blue.500',
                 }}>
                 Sign in
-              </Button>
+              </Button>}
             </Stack>
           </Stack>
         </Box>

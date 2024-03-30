@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import "./client.css"
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import {
   Modal,
   ModalOverlay,
@@ -11,11 +12,12 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  FormControl, FormLabel, Input, Button, Flex
+  FormControl, FormLabel, Input, Button, Flex, Text
 } from '@chakra-ui/react'
 
 
 const Dashboard = () => {
+  const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
@@ -31,7 +33,13 @@ const Dashboard = () => {
     }
     )
       .then(res => {
-        alert(res.data.msg)
+        toast({
+          title: res.data.msg,
+       position:"top-right",
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        })
       })
   }
 
@@ -56,7 +64,13 @@ const Dashboard = () => {
     }
     )
       .then(res => {
-        alert(res.data.msg)
+        toast({
+          title: res.data.msg,
+     
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        })
         onClose()
       })
      
@@ -87,7 +101,7 @@ const Dashboard = () => {
     <>
       {
         data.length<=0 ? <h1 style={{position:"absolute", top:"50vh", left:"45%", fontSize:"30px",fontWeight:"600"}}>No Client Data ...</h1> : <div style={{ marginTop: "20px", padding: "20px" }}>
-          <h3>All Client here ...</h3>
+          <Text fontSize="20px" fontWeight={"bold"} mb={2}>Client Data ...</Text>
           <table>
             <tr>
               <th>sr</th>
